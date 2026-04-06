@@ -55,7 +55,6 @@ export default async function ActionPage({ params }: ActionPageProps) {
   return (
     <AppShell
       title="Choose one action"
-      eyebrow="Action Selection"
       sessionLabel={session.displayName}
     >
       <ActionSelection cycle={bundle.cycle} initialOptions={initialOptions} />

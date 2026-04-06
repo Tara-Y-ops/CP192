@@ -15,7 +15,6 @@ export default async function OnboardingPage() {
   return (
     <AppShell
       title="Set your current focus"
-      eyebrow="Onboarding"
       sessionLabel={session.displayName}
     >
       <section className="grid gap-6 md:grid-cols-[1.05fr_0.95fr]">

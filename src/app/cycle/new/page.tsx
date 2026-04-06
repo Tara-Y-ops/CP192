@@ -22,7 +22,6 @@ export default async function NewCyclePage() {
   return (
     <AppShell
       title="Start a new reflection"
-      eyebrow="Reflection"
       sessionLabel={session.displayName}
     >
       <section className="mx-auto grid w-full max-w-4xl gap-4">

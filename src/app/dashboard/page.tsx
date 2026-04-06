@@ -24,13 +24,7 @@ export default async function DashboardPage() {
   return (
     <AppShell
       title="Dashboard"
-      eyebrow="Dashboard"
       sessionLabel={session.displayName}
-      actions={
-        <form action="/api/auth/logout" method="post">
-          <button className="btn-secondary text-sm">Log out</button>
-        </form>
-      }
     >
       <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
         <article className="glass-card rounded-[32px] p-6 md:p-8">

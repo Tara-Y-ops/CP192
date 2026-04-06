@@ -30,7 +30,6 @@ export default async function ReviewPage({ params }: ReviewPageProps) {
   return (
     <AppShell
       title="Review what changed"
-      eyebrow="Post-action review"
       sessionLabel={session.displayName}
     >
       <section className="grid gap-6 lg:grid-cols-[1fr_0.85fr]">

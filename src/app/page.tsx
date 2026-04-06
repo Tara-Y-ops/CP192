@@ -5,8 +5,8 @@ export default async function Home() {
   const session = await getOptionalSession();
 
   return (
-    <main className="flex flex-1">
-      <div className="page-shell flex w-full flex-col gap-6 pt-6 md:pt-8">
+    <main className="flex flex-1 items-center justify-center">
+      <div className="page-shell flex w-full flex-col gap-6">
         <section className="glass-card fade-up rounded-[30px] px-6 py-7 md:px-8 md:py-8">
           <div className="grid gap-6 md:grid-cols-[1.15fr_0.85fr]">
             <div className="space-y-5">

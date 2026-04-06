@@ -12,7 +12,6 @@ export default async function HistoryPage() {
   return (
     <AppShell
       title="Cycle history"
-      eyebrow="History"
       sessionLabel={session.displayName}
     >
       <section className="grid gap-4">
