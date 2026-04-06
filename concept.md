@@ -1,38 +1,102 @@
-
-
-Project design
+Project Concept
 From Reflection to Action: A Self-Awareness App for University Students
 
+Introduction and Problem Statement
+University students often spend a lot of time thinking about identity, purpose, personal growth, and the future. The issue is not that they never reflect. The issue is that reflection often stays internal and abstract. Someone may understand what matters to them, or even know what they should do next, but still feel unable to begin. At that point, reflection stops being useful and starts turning into hesitation, pressure, or overthinking.
 
+That is the gap this project is trying to address. Many existing tools support journaling, note-taking, or task management, but fewer help users move from emotional awareness to one concrete next step. Momentum is built around the idea that students often do not need a bigger plan first. They need a way to name what is going on, choose a small action that feels possible now, and learn something from trying it.
 
-Introduction and Problem Statement (120 words)
-University students often spend a lot of time thinking about their identity, purpose, and future. However, this reflection can remain abstract and internal, leaving them feeling stuck rather than motivated to act. If reflection does not lead to action, it can become passive and unproductive (Impm, 2023). In psychology, this is known as analysis paralysis, in which overthinking impedes decision-making and forward movement (Clarke, 2023). Many self-awareness tools, like journaling apps and guided reflection exercises, focus on thinking and writing but offer little help with taking concrete steps. Mental health research shows that reflection works best when combined with action rather than as a substitute (Oliver-Gans, 2024). Because of this, students often get caught in self-reflection without making real changes
-Target Users (106 words)
-The main users are university students who care about personal growth but struggle to turn their reflections into action. In my research, I surveyed 53 students—most of them undergraduates—and found that current tools do not meet their needs. Many said they often think about their future, including career and personal goals, but feel stuck or unsure about what to do next. They find it hard to reflect on important life questions and then use those insights in real life. These students face a gap between understanding themselves and taking action, so they would benefit from a tool that helps them turn reflection into small, practical steps.
-Proposed Solutions (190 words)
-I’m proposing a self-awareness web app that helps students turn reflection into action using simple, structured experiments. Rather than just journaling, the app encourages users to try out specific questions about themselves through small, intentional steps. For instance, someone wondering if they like working with others could join a study group once, while someone exploring a new interest might spend half an hour on a related activity. These steps are meant to be low-risk experiments, not long-term commitments.
-After trying an action, users come back to reflect on what they noticed, like changes in motivation, mood, or how engaged they felt. This creates a feedback loop where reflection leads to new actions, and each experience helps users learn more about themselves. Unlike productivity apps that focus on getting things done or journaling tools that are just about introspection, this app is about learning through real experiences. There’s also an optional peer support feature that lets users share their plans and check in with others for a bit of accountability, without any pressure. In short, the app stands out by turning self-reflection into practical, testable steps instead of just abstract ideas.
-Core Feedback Loop (291 words)
-The main feature of the tool is a four-step feedback loop that helps users turn reflection into action and learn from their experiences. By repeating this cycle, users gain new insights and grow personally.
-First, the app gives users a focused prompt that encourages them to think about a specific question or curiosity, such as an interest they've been thinking about. Users write short reflections, which helps them avoid vague thinking and focus on something meaningful.
-Next, users choose one small, low-risk action to try in the next few days. These actions are simple, like going to a club meeting, talking to someone in a field they like, spending time on a hobby, or noticing their mood during an activity. Each action connects to the first reflection and is treated as a simple test, such as, “If I try X, what will I learn?” This approach makes it easier to take action without feeling stressed.
-After taking the action, users return to the app for a brief reflection. They note what happened, how they felt, and if anything surprised them. This step helps users connect their experience to their original thoughts, turning actions into real learning instead of just a single task.
-As users repeat this process, the app helps them spot patterns in their reflections and actions. By keeping a simple record, users can see themes in their preferences, values, or strengths, such as which activities make them feel more engaged or satisfied.
-After each cycle, the process starts again with a new prompt or focus. The system encourages learning by doing, not by overthinking. Users can also choose to pair up with a peer to share actions and check in, which adds support and accountability without any competition.
-Experiment (181 words)
-To determine whether this solution meets a real need, I surveyed 53 target users, most of whom were undergraduates. The results support the project’s direction and show that the proposed approach is relevant.
-First, 69% of respondents said they often think about their future or personal growth. This shows that self-reflection is already common among students and that the problem is grounded in real behavior rather than just theory.
-However, over 60% said that reflecting many times made them less clear or led to inaction. This shows there is a gap between thinking and taking action. Reflection by itself often does not lead to real progress.
-The survey also showed strong support for action-based solutions. Over 85% agreed that taking small actions helped them understand themselves better, supporting learning by doing. About 85% also said that having peers involved or being held accountable would help them follow through.
-Overall, these findings show that students already reflect, know their limits, and respond well to small steps and peer support. This supports the need for a system that links reflection to real action.
-Bias and Limitations (119 words)
-The survey offered helpful insights but had some limitations. Since it used self-reporting, participants might have overestimated how often they reflect or how useful small actions are, possibly due to memory bias or a desire to give socially acceptable answers. The sample may also include more introspective students, which could make the reflection-action gap seem more common than it actually is among all students.
-Another limitation is that the survey measured students' intentions rather than their actual behavior. Many students said they were interested in peer support and trying small actions, but this does not mean they will follow through. Even with these limits, the responses show clear patterns that point in a useful direction and support further study.
-Feasibility (143 words)
-To keep the project manageable, I suggest we build a simple MVP with just the core features: structured reflection prompts, logging small actions, basic personal history, and a simple peer pairing option. We will leave out more advanced features, such as real-time notifications or AI-based insights, to stay focused and ensure the project is doable.
-A team of 5 to 7 developers can finish this project in 15 weeks. We can split the work into backend tasks (like user accounts, data storage, and peer pairing), frontend tasks (such as text input, prompt selection, and simple dashboards), and UI/UX design. In the first weeks, we would focus on wireframing and prototyping, then move on to building features, integrating them, and testing everything at the end. By using standard web frameworks and a modular approach, we can realistically deliver this MVP within one semester.
-Conclusion (50 words)
-	In conclusion, this project fills a gap in self-development tools by helping students move from reflection to action. With guided prompts, short action cycles, and optional peer support, the tool meets students’ needs and is backed by survey results. It can be completed in one semester and encourages hands-on self-discovery.
+Target Users
+The main users are university students, especially undergraduates, who care about personal growth but often get stuck between reflection and action. These are people who think about career direction, interests, relationships, habits, or values, but find it hard to turn those thoughts into movement.
+
+In early research, many students described a similar pattern: they reflect often, but do not always know what to do next. Some feel anxious or tired before starting. Some know the task but avoid it because it feels too big. Others want a tool that feels supportive without being overly demanding. Momentum is meant for that kind of user: someone who wants help getting into motion, not another system that adds pressure.
+
+Proposed Solution
+Momentum is a web app that helps users move through a short loop: reflection, action, and review.
+
+Instead of asking for a long journal entry, the app uses a structured reflection form. Users describe their current state through a few focused questions, such as what they are feeling, what feels blocked, how much energy they have, and what kind of next step feels realistic. Based on that, the app offers a few small action options. These can be AI-generated or replaced with a custom action written by the user.
+
+The point is not to generate a perfect answer. The point is to reduce friction around starting.
+
+After the user tries the action, they return for a short review. They record what happened, how they felt, whether they feel more stable, and whether they want to continue. Over time, this creates a personal history that can help the user see progress more clearly.
+
+In the current MVP1, this is a solo experience. Peer support may still be a useful future direction, but it is not part of the current product scope.
+
+Current MVP1 Flow
+The current version of Momentum is a local demo MVP built around the following flow:
+
+`landing -> demo login -> onboarding -> reflection -> action selection -> complete -> review -> dashboard/history`
+
+What MVP1 currently includes:
+
+- a landing page
+- a lightweight demo login
+- onboarding with display name and one focus area
+- a structured reflection form
+- AI action suggestions with a deterministic local fallback
+- custom action creation
+- action completion
+- a post-action review form
+- a dashboard showing the current cycle and latest review
+- a history page
+
+This MVP is intentionally narrow. It is meant to test whether the core loop works before adding broader features.
+
+Core Feedback Loop
+The heart of the project is a reflection-to-action loop that helps users learn by doing.
+
+First, the user reflects in a structured way. Instead of writing broadly about life, they answer a short set of questions that captures their current emotional state, source of resistance, and what kind of next step feels manageable.
+
+Second, the user chooses one small action. The system generates a few options designed to be low-risk and specific, and the user can either select one or write their own. The action is not meant to solve everything. It is meant to be small enough that the user can actually begin.
+
+Third, after trying the action, the user comes back and reviews what happened. This step matters because it turns action into learning. The app asks what happened, whether anything changed emotionally, and whether the user feels more ready to continue.
+
+Finally, the cycle becomes part of the user’s history. In MVP1, this history is still simple. It shows what happened and preserves continuity across cycles. In later versions, that history could become the basis for pattern recognition and stronger insight features.
+
+Experiment and Research Support
+To test whether this direction meets a real need, I surveyed 53 students, most of them undergraduates. The results supported the core idea behind the project.
+
+First, 69% of respondents said they often think about their future or personal growth. That suggests reflection is already common among the target audience.
+
+At the same time, more than 60% said repeated reflection could make them feel less clear or less likely to act. This supports the idea that reflection alone is not always enough.
+
+The survey also showed strong support for learning through action. More than 85% agreed that taking small actions helped them understand themselves better. That is important because Momentum is built around the belief that self-understanding often becomes clearer after a real experience, not before it.
+
+Some responses also suggested that accountability or peer support could be useful. That remains interesting, but based on the current product direction, it makes more sense as a later-stage roadmap item rather than something MVP1 should try to solve immediately.
+
+Bias and Limitations
+This research was still limited in a few ways. The survey relied on self-reporting, which means participants may have overstated how often they reflect or how helpful small actions would be. The sample may also have included more introspective students than average, which could make the reflection-action gap appear more common than it is across the entire student population.
+
+Another limitation is that survey responses capture what users say they want, not necessarily what they will do. Someone may say they value small action steps, but still not follow through in practice. That is one reason MVP1 matters: it gives us a real product to test against actual behavior instead of just stated preference.
+
+Feasibility
+The current MVP1 is much more feasible than a broader first version would have been because the scope is focused. The app already covers the core loop with:
+
+- structured reflection
+- suggested or custom actions
+- review after action
+- dashboard and history
+- local persistence for demo use
+
+By keeping the first version centered on solo use, we avoid the added complexity of peer systems, notifications, advanced analytics, and production-scale infrastructure. That makes it realistic to deliver and evaluate within a semester-sized project window.
+
+If the core loop proves useful, the next stage can build outward carefully rather than trying to solve everything at once.
+
+Roadmap After MVP1
+If Momentum continues beyond MVP1, the next steps should build from the current loop instead of replacing it.
+
+The first likely direction is to strengthen the solo experience: better polish, better persistence, cleaner edge-case handling, and more confidence that the current flow is genuinely useful.
+
+After that, one possible roadmap branch is light peer accountability. Not social networking, but a low-pressure way for one other person to see or support an action. This could help test whether gentle accountability improves follow-through.
+
+Another possible direction is insight generation. Once enough cycle history exists, the product could help users notice patterns, such as common blockers, emotional states, or action types that seem to work best for them.
+
+A later infrastructure-focused stage could add real authentication, cloud storage, and stronger privacy and analytics foundations if the product moves beyond local demo use.
+
+Conclusion
+Momentum is based on a simple belief: students often do not need more abstract reflection. They need help turning reflection into one manageable action and one useful review.
+
+The current MVP1 is built to test that idea in the smallest useful form. It is not trying to be a full platform yet. If the core loop proves valuable, then future versions can expand into accountability, insights, and more robust infrastructure while keeping the same central purpose: helping people move from stuckness to action without adding more pressure.
 
 
 References
@@ -42,5 +106,3 @@ Oliver-Gans, A. (2024, December 4). How to journal for mental health: Benefits a
 Appendix A: Survey Results (Google Sheet)
 Google Sheet Link:
 https://docs.google.com/forms/d/1tvQeIQTIzHs5PKa2YjWSJoT3UhMx_NiWmdiQInnZr8M/edit#responses
-
-
