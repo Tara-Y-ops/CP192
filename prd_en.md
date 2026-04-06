@@ -1,592 +1,387 @@
-# PRD
+# Momentum PRD
 
-## 1. Document Info
+## 1. What This Document Is For
 
-- Product Name: Momentum
-- Product Type: A self-awareness and action experiment web app for university students
-- Language: English
-- Version: V0.1
-- Based on: [concept.md](/Users/tara/Desktop/CP192/concept.md),
+This PRD is meant to do two things:
 
-## 2. Product Overview
+1. describe what Momentum MVP1 is today
+2. give a realistic roadmap for what could come next
 
-Momentum is a web app that helps university students move from thought to action. Users first answer a short set of questions to identify their current emotions, stress, and main source of resistance. The system then turns those answers into a small, low-risk action experiment. AI can generate several suggested actions based on the user’s responses, and users can also create their own action.
+So this is not a pure vision document, and it is not just a technical spec either. It should help someone quickly understand the product we have already built, what problem it is trying to solve, what is intentionally out of scope for MVP1, and where the product could go after this version.
 
-After trying the action, users return to the app to reflect on what happened, how they felt, and whether they are in a better state than before. Over time, repeated cycles help users understand their patterns, interests, values, and what kinds of actions actually help them move forward.
+## 2. Product Summary
 
-### 2.1 Key Terms
+Momentum is a small web app for students who feel stuck between reflection and action.
 
-- Reflection: A short response focused on one specific question or issue
-- Action experiment: A small action meant to test, explore, or restart movement
-- AI action suggestions: 3 to 5 action options generated from the user’s answers
-- Reflection after action: A short review of what happened and how the user feels now
-- Cycle: One full round of reflection, action, and review
+The core idea is simple: instead of asking people to think more, Momentum helps them pause, name what is going on, choose one very small next step, and then come back to review what happened.
 
-## 3. Background and Problem
+In the current MVP1, the experience is built around a solo loop:
 
-University students often think deeply about identity, career direction, personal growth, and the future. The problem is that these reflections often stay abstract and never turn into real-world action. Many students do want to grow. They are simply stuck in overthinking, pressure, low energy, or emotional resistance.
+`landing -> demo login -> onboarding -> reflection -> action selection -> complete -> review -> dashboard/history`
 
-There is also a common situation where a user knows what they "should" do, such as starting an assignment, preparing an application, replying to an email, or making an important decision, but still cannot begin. That resistance may come from anxiety, fear of failure, fatigue, self-doubt, or the feeling that the task is too large.
+This version is intentionally narrow. It is a local demo product designed to test whether this loop is useful and usable before we add anything more ambitious.
 
-Current tools often fall into two groups:
+## 3. Why This Product Exists
 
-- Reflection tools help users write, but do not help them act
-- Productivity tools help users execute, but assume the user already knows what to do
+Many students do reflect. The problem is that reflection often stays abstract.
 
-This leaves a gap for students who:
+Someone might know they care about their future, career, relationships, habits, or values. They may even know what they "should" do. But when it is time to begin, they get stuck. Sometimes the blocker is anxiety. Sometimes it is low energy. Sometimes the task feels too big, too loaded, or too unclear.
 
-- care about growth
-- want to understand themselves better
-- are willing to try change
-- still struggle to turn insight into action
+There are already products that support journaling, and there are already products that support execution. But there is still a gap between:
 
-Based on the current survey:
+- "I understand what I am feeling"
+- and
+- "I know what small step I can actually take today"
 
-- 69% of respondents often think about their future or personal growth
-- more than 60% said repeated reflection made them less clear or less likely to act
-- more than 85% agreed that small actions helped them understand themselves better
-- around 85% said peer support or light accountability would help
+Momentum is trying to sit in that gap.
 
-These results suggest that the problem is real and that students respond well to action-based self-discovery.
+The product is not trying to solve someone's whole life. It is trying to make the next step feel possible.
 
-### 3.1 Psychology Concepts Behind the Design
+## 4. Who MVP1 Is For
 
-The product direction is supported by several psychology concepts:
+The primary user for MVP1 is a university student who:
 
-- Analysis paralysis: too much thinking can delay or block action
-- Affect labeling: naming current emotions can help people process what they are feeling more clearly
-- Motivational interviewing and ambivalence: people often want change and resist it at the same time; making that conflict visible can help
-- Behavioral activation: small actions can reduce stuckness and make it easier to re-engage
-- Implementation intentions: actions are more likely to happen when they are concrete, specific, and tied to time or context
-- Self-Determination Theory: people are more willing to act when they feel autonomy, competence, and support
+- thinks a lot about personal growth, direction, or important decisions
+- often feels blocked before starting
+- responds better to a low-pressure tool than to a productivity-heavy tool
+- does not necessarily need a big plan, but does need a smaller entry point
 
-Together, these ideas support a simple principle: students often do not need a bigger plan first. They need a clearer emotional check-in and one action that feels small enough to start.
+Typical situations include:
 
-### 3.2 Competitive Landscape
+- "I know what I need to do, but I still cannot begin."
+- "The task feels too big, and I need help finding a smaller starting point."
+- "I do not want another app that makes me feel judged or behind."
 
-Momentum sits near several existing products, but its focus is different.
+## 5. Product Goals for MVP1
 
-#### Notion
+MVP1 is here to validate the personal core loop.
 
-Notion is flexible and useful for journaling, planning, and organizing goals. Its weakness for this use case is that it starts from a blank space. For students who already know how to structure themselves, that works well. For students who feel stuck, Notion offers freedom but not much guidance from reflection to action.
+The main questions behind this version are:
 
-#### Day One
+- Can a user move from reflection to action without getting lost?
+- Do the action suggestions actually help, or do they just add noise?
+- Will users complete the review after trying the action?
+- Does the dashboard/history make the loop feel coherent over time, even in a basic form?
 
-Day One is strong as a journaling and memory-keeping tool. It works well for capturing emotions and experiences, but it offers limited support for deciding what small action to take next.
+At this stage, the product goal is not scale, retention optimization, or social engagement. The goal is to prove that the loop itself is worth continuing.
 
-#### Todoist
+## 6. What MVP1 Includes
 
-Todoist is effective for task management and execution. It helps when users already know their goals. It is less helpful when users are still trying to understand what they feel, why they are resisting, or what first step is realistic.
+Momentum MVP1 currently includes:
 
-#### Fabulous
+- a landing page that introduces the product
+- a lightweight demo login
+- onboarding with a display name and a single current focus area
+- a structured reflection form
+- AI-generated action suggestions with a local fallback path
+- the ability to write a custom action instead
+- an action completion step
+- a post-action review form
+- a dashboard that shows the active cycle and latest review
+- a history page that shows past cycles
+- local persistence through `.data/momentum-demo.json`
 
-Fabulous focuses on habit building, routine, and behavior change. It shares Momentum’s emphasis on action, but its center is habit formation and wellbeing. Momentum focuses more on self-discovery through small experiments.
+The important thing about this list is that it reflects the product that exists now, not an imagined future state.
 
-#### Competitive Conclusion
+## 7. What MVP1 Does Not Include
 
-There are already strong products for journaling, planning, and habit building. Fewer products connect emotional awareness, resistance, AI-supported small actions, and post-action reflection in one simple loop. That is where Momentum has room to stand out.
+Just as important, MVP1 does not include:
 
-## 4. Product Goals
+- production authentication
+- passwords, email verification, or account recovery
+- peer support or accountability features
+- a settings page
+- an insights page
+- reminders or notifications
+- advanced analytics
+- real production database infrastructure as the default runtime path
+- therapy or mental health intervention features
 
-### 4.1 Product Goals
+That is deliberate. This version is supposed to stay focused.
 
-- Validate whether a reflection-action-review loop increases meaningful engagement
-- Validate whether the product helps students move from abstract thinking to real action
-- Deliver a realistic MVP within one semester and leave room for iteration
+## 8. The Core Experience
 
-### 4.2 User Goals
+The user journey in MVP1 looks like this:
 
-- Identify what they are feeling right now
-- Understand why they are resisting a task or decision
-- Get one small, realistic next action
-- Reflect after acting and notice whether they feel more stable or more ready
-- See their longer-term patterns over time
+### 8.1 Landing
 
-### 4.3 Non-Goals
+The landing page introduces the product in a lightweight way and points the user either to the dashboard or to the login flow.
 
-- The product does not provide therapy, diagnosis, or crisis care
-- The product is not a full task management system
-- The product is not a social platform
-- Early versions do not rely on complex AI analysis as the core value
+### 8.2 Demo Login
 
-## 5. Target Users
+The user enters an email and display name. This is not meant to be production auth. It is just enough session structure to support a local demo experience.
 
-### 5.1 Core User Profile
+### 8.3 Onboarding
 
-University students, especially undergraduates, who care about personal growth and often reflect on their future, interests, identity, or goals, but find it hard to turn that reflection into action.
+The user chooses a current focus area. This gives the dashboard and later flows a little context without making onboarding heavy.
 
-### 5.2 User Characteristics
+### 8.4 Reflection
 
-- They reflect often, but do not always know what to do next
-- They are open to trying small experiments
-- They respond better to low-pressure, low-risk tools
-- They may benefit from light peer support
+The reflection form asks the user to describe their current state in a structured way:
 
-### 5.3 Typical User Situations
+- theme
+- emotion
+- energy level
+- blocker
+- resistance reason
+- effort level
+- desired outcome
+- open reflection text
 
-- "I am not sure whether I actually like this path, but I do not know how to test it."
-- "I keep thinking about what I should do next, but I do not start."
-- "I know what I should do, but I feel too anxious or tired to begin."
-- "I want something that helps me restart without making me feel judged."
+The goal here is not journaling for journaling's sake. The goal is to create enough context to produce a realistic next step.
 
-## 6. Core Value Proposition
+### 8.5 Action Selection
 
-Momentum helps users notice their current emotional state, understand what is blocking action, and take one small step that feels possible now.
+Once the reflection is saved, the user lands on the action selection page.
 
-One-line summary:
+If there are no suggestions yet, the app generates them automatically. The user can:
 
-"Start small, understand more."
+- pick one of the AI-generated actions
+- regenerate suggestions
+- ignore all of them and write a custom action
 
-## 7. Product Principles
+Every action is supposed to feel small, concrete, and low-pressure.
 
-- Small steps first: every suggested action should feel low-risk and realistic
-- Emotion-aware: the system should respond to the user’s current state, not just the task itself
-- Actionable reflection: every reflection flow should support a next step
-- Low pressure: avoid competitive or performance-heavy design
-- Support without force: peers and AI are optional support layers, not control mechanisms
+### 8.6 Completion
 
-## 8. Core Loop
+After choosing an action, the cycle becomes active on the dashboard. Once the user has done the action, they mark it complete and move to review.
 
-Momentum is built around a five-step loop:
+### 8.7 Review
 
-1. Emotional check-in: the user identifies their current emotion, energy, and pressure
-2. Resistance mapping: the user answers why they do not want to start or what feels blocked
-3. Action selection: the system generates several small action options; the user can pick one or create their own
-4. Post-action review: the user records what happened and whether they feel better, calmer, or more ready
-5. Pattern building: the system stores the cycle and helps the user notice useful patterns over time
+The user records what happened, how they felt, whether they feel more stable, and whether they want to continue. This is the part that turns the action into learning instead of just another unfinished intention.
 
-The core success condition is simple: does the user gain clarity through action, not just through thinking?
+### 8.8 Dashboard and History
 
-### 8.1 Ideal User Path
+The dashboard is the home base for the current cycle. It shows:
 
-The ideal Momentum flow is:
+- the next step
+- the user's focus area
+- the active cycle
+- the latest reviewed cycle
 
-1. The user recognizes what they are feeling right now, such as anxiety, guilt, exhaustion, frustration, or fear
-2. The user sees that the issue is not simply "lack of discipline" but a specific kind of resistance
-3. The system generates several small action options based on that state
-4. The user picks the least overwhelming option, or writes a better one
-5. The user completes the action
-6. The user returns and reflects on whether they feel more stable, more capable, or more ready to continue
-7. Over time, the system helps the user learn what kinds of actions work best in different states
+The history page is simpler. It is there to preserve continuity and help the user see that each cycle is part of a larger pattern, even though MVP1 does not yet generate formal insights.
 
-## 9. Core Hypotheses
+## 9. Current Product Rules
 
-- If users identify their emotional state before choosing an action, the action will feel more relevant
-- If suggested actions are very small and low-risk, users are more likely to begin
-- If the system offers several action options instead of one, users will feel more autonomy
-- If users review right after acting, they are more likely to turn experience into insight
-- If users can see repeated patterns, they are more likely to keep using the product
-- If light peer support is added later, completion and return rates may improve
+There are a few important product rules in MVP1:
 
-## 10. Key User Stories
+### 9.1 One Active Cycle at a Time
 
-- As a student who overthinks, I want a focused reflection flow so I do not spiral into vague writing
-- As a student who knows what I should do but still cannot start, I want help identifying what I feel and what is blocking me
-- As a user who does not know the first step, I want the system to give me a few AI-generated action options
-- As a user with high resistance, I want one small action that feels possible now
-- As a user who completed an action, I want to quickly record what changed so the experience is not lost
-- As a returning user, I want to see which actions help me most in different emotional states
-- As a user who wants support, I want optional peer check-ins without pressure
+Momentum currently allows only one active cycle per user. A cycle stays active until it is reviewed.
 
-## 11. Information Architecture
+This keeps the product simple. It also reduces the chance that a user will create multiple thoughtful reflections and then act on none of them.
 
-- Landing page
-- Sign up / Log in
-- Onboarding
-- Dashboard
-- Reflection flow
-- Action selection
-- Post-action review
-- History
-- Insights
-- Peer page
-- Settings
+### 9.2 Clear Status Flow
 
-### 11.1 Core User Flow
+Each cycle moves through four states:
 
-1. The user enters Momentum and learns the basic logic
-2. The user selects a current issue or focus area
-3. The user answers a short set of questions about emotion, resistance, and goal
-4. The system generates several small action options; the user picks one or writes their own
-5. The user tries the action in real life
-6. The user returns to review what happened and whether they feel more stable or ready
-7. The system saves the cycle and prompts the next round when needed
+- `reflecting`
+- `pending`
+- `completed`
+- `reviewed`
 
-## 12. MVP Roadmap
+This is the backbone of the product. The UI, dashboard logic, and API routes all follow this state model.
 
-The product should be built in three MVP stages. Each stage validates a different assumption.
+### 9.3 AI Is Support, Not the Product
 
-### 12.1 MVP V1: Validate the Personal Core Loop
+AI suggestions are useful when they help the user get unstuck. But Momentum should still work when AI is unavailable.
 
-#### Goal
+That is why MVP1 includes a deterministic fallback path. If OpenAI is not configured, or if the request fails, the user should still get usable next-step options.
 
-Validate whether one user can complete the minimum loop of reflection, action, and review.
+## 10. Functional Scope
 
-#### Key Questions
+This section is less about engineering detail and more about what the product needs to be able to do.
 
-- Can users move from reflection to action smoothly?
-- Will users return to complete the review?
-- Do AI-generated action options make it easier to start?
-- Does the product already provide value in solo use?
+### 10.1 Session and Access
 
-#### Core Features
+- The app should let a user start a demo session with email and display name.
+- The session should persist through an HTTP-only cookie.
+- Protected pages should redirect unauthenticated users to login.
+- The user should be able to log out easily.
 
-- User registration and login
-- Basic onboarding
-- Structured reflection questions
-- Text input and save
-- AI-generated 3 to 5 action options
-- User-created custom action option
-- Estimated action time
-- Post-action review form
-- History view
-- Basic dashboard showing the current cycle
+### 10.2 Onboarding
 
-#### Included
+- The user should set a display name and choose a focus area.
+- If the user already has a focus area saved, the app should not force them through onboarding again.
+- The focus area should remain editable later.
 
-- Full single-user loop
-- Basic data storage
-- Simple status tracking such as pending, completed, and reviewed
+### 10.3 Reflection
 
-#### Not Included
+- The reflection flow should be short and structured.
+- It should collect enough information to generate realistic action suggestions.
+- It should prevent incomplete submissions.
 
-- Peer pairing
-- Notifications
-- AI insight summaries
-- Advanced analytics
-- Community features
+### 10.4 Action Suggestions
 
-#### Success Metrics
+- The product should generate three usable suggestions in the normal case.
+- Each suggestion should include a title, description, estimated time, and rationale.
+- The user should be able to regenerate suggestions or ignore them.
+- The user should always be allowed to write their own action.
 
-- Rate of first reflection completion
-- Rate of action selection after reflection
-- Rate of AI suggestion selection
-- Rate of review completion after action
-- Share of users who report feeling more stable after the action
-- Share of users who complete at least one full cycle within 7 days
+### 10.5 Action Completion and Review
 
-#### Release Criteria
+- The user should be able to mark an action as complete.
+- Only a completed action should move into review.
+- The review should feel short enough to finish, but meaningful enough to be useful later.
 
-- Users can complete one full cycle without major friction
-- Data saves correctly
-- The main path is understandable and usable
+### 10.6 Dashboard and History
 
-### 12.2 MVP V2: Validate Light Peer Support
+- The dashboard should clearly tell the user what to do next.
+- The dashboard should not try to do too much in MVP1.
+- History should show past cycles in a simple, readable way.
 
-#### Goal
+## 11. Pages in the Current MVP1
 
-After the solo loop works, validate whether light peer support improves completion and follow-through.
+The current app includes these pages:
 
-#### Key Questions
+- `/` landing
+- `/auth` demo login
+- `/onboarding` onboarding
+- `/dashboard` dashboard
+- `/cycle/new` reflection form
+- `/cycle/[id]/action` action selection
+- `/cycle/[id]/review` review page
+- `/history` cycle history
 
-- Are users willing to invite or match with one peer?
-- Does peer presence increase action completion?
-- Does light accountability help without increasing stress?
+Older product drafts mentioned things like peer pages, settings, and insights. Those are not in the current product and should be treated as future ideas, not present functionality.
 
-#### New Features
+## 12. Data Model in MVP1
 
-- Peer pairing or invitation
-- Shared action summary
-- Light check-in for each cycle
-- Short peer-visible status updates
-- Option to exit peer mode at any time
+For the local demo, Momentum stores data in four basic groups:
 
-#### Included
+- profiles
+- cycles
+- action options
+- reviews
 
-- One-to-one lightweight support
-- Low-pressure check-ins
-- Clear privacy controls
+At a product level, that means:
 
-#### Not Included
+- a user has a profile and one current focus area
+- a cycle stores the reflection state and status
+- an action option stores either an AI-generated or custom next step
+- a review stores what happened after the action
 
-- Group features
-- Chat rooms
-- Real-time messaging
-- Rankings or competition
+This is enough for MVP1 because the product is still centered on completing the loop, not on deep analysis.
 
-#### Success Metrics
+## 13. API Surface
 
-- Peer mode adoption rate
-- Completion rate comparison between peer and non-peer users
-- Review return rate in peer mode
-- User rating of whether support feels helpful without pressure
+The current implementation already exposes a simple API for the full loop:
 
-#### Release Criteria
+- `POST /api/auth/login`
+- `POST /api/auth/logout`
+- `POST /api/profile`
+- `POST /api/cycles`
+- `POST /api/cycles/:id/generate-actions`
+- `POST /api/cycles/:id/select-action`
+- `POST /api/cycles/:id/complete`
+- `POST /api/cycles/:id/review`
+- `GET /api/dashboard`
+- `GET /api/history`
 
-- Users can complete peer invite or pairing clearly
-- Sharing and exit controls are easy to understand
-- Peer features do not create major extra cognitive load
+For MVP1, these routes mainly support the UI. They are not yet meant to be a public platform API.
 
-### 12.3 MVP V3: Validate Long-Term Value Through Insights
+## 14. Success Criteria for MVP1
 
-#### Goal
+We should consider MVP1 successful if:
 
-After users can complete multiple cycles, validate whether pattern-based insights improve retention and long-term value.
+- a new user can sign in, finish onboarding, and reach the dashboard
+- a user can complete one full reflection -> action -> review cycle without help
+- the AI path is useful when available
+- the fallback path still works when AI is unavailable
+- dashboard and history reflect the user's progress clearly
 
-#### Key Questions
+If we want to evaluate this more formally, the most useful metrics would be:
 
-- Will users continue using the product across multiple cycles?
-- Do insights help users understand their patterns more clearly?
-- Can simple rule-based summaries provide value before more advanced AI features?
+- reflection completion rate
+- action selection rate
+- review completion rate
+- percentage of users who report feeling more stable after the action
+- number of users who complete a full cycle in a test session
 
-#### New Features
+These are evaluation goals, not analytics features that already exist inside the product.
 
-- Reflection, action, and emotion tags
-- Pattern summaries such as common blockers, useful actions, and recurring emotions
-- Periodic review page
-- Rule-based next-step experiment suggestions
-- Personal growth timeline
+## 15. Risks and Tradeoffs
 
-#### Included
+### 15.1 The Product Could Feel Too Much Like a Journal
 
-- Basic data visualization
-- Explainable summaries and recommendations
-- Editable tags and categories
+That risk is real. If the reflection feels too open-ended, users may stop before action.
 
-#### Not Included
+The response in MVP1 is to keep the reflection structured and to route directly into action selection.
 
-- High-cost AI diagnosis
-- Complex personality testing
-- Campus social network features
+### 15.2 AI Could Become a Crutch or a Failure Point
 
-#### Success Metrics
+If the product only works when AI works, it is fragile.
 
-- Share of users who complete 3 or more cycles
-- Insights page visit rate
-- Rate of starting a new action after viewing insights
-- 30-day retention improvement compared with V1 and V2
+That is why the product keeps AI in a supporting role and includes local fallback suggestions.
 
-#### Release Criteria
+### 15.3 The Scope Could Expand Too Quickly
 
-- Insights are understandable and explainable
-- The summaries are helpful and not misleading
-- Users can start the next cycle directly from insights
+Momentum naturally invites ideas like peers, insights, reminders, and social accountability. But adding those too early would make it harder to tell whether the core loop itself is strong.
 
-## 13. Functional Requirements
+So MVP1 should stay small on purpose.
 
-### 13.1 Account System
+### 15.4 The Product Boundary Could Become Confusing
 
-- Users can sign up, log in, and log out
-- Users can view and edit basic profile details
-- User data is linked to each cycle
+Momentum touches emotion and stuckness, which means the language matters. The product should support self-awareness and action, but it should not present itself as therapy, treatment, or crisis support.
 
-Priority: P0 (V1)
+## 16. Roadmap After MVP1
 
-### 13.2 Onboarding
+The roadmap should build outward from the core loop, not away from it.
 
-- Explain the product logic clearly: reflection should lead to a small experiment
-- Help the user choose a current focus area
-- Explain what a "small action experiment" means
-- Explain that AI suggestions are optional and the user can always write their own action
+### 16.1 Next Step: Make the Solo Loop More Solid
 
-Priority: P0 (V1)
+Before adding new product areas, the first follow-up work should probably improve the basics:
 
-### 13.3 Reflection Module
+- better polish on the dashboard and history
+- clearer copy around action size and expected outcomes
+- better persistence beyond a local demo setup
+- cleaner edge-case handling
 
-- Provide short, focused questions
-- Allow text input
-- Allow users to select themes such as interest, career, relationships, habits, or values
-- Identify current emotion, energy level, and source of resistance
+This is less exciting than adding big new features, but it is probably the right next move if MVP1 shows promise.
 
-Priority: P0 (V1)
+### 16.2 Roadmap Direction A: Light Accountability
 
-### 13.3.1 Reflection Question Design Principles
+If the solo loop works, the next major expansion could be some form of low-pressure accountability.
 
-- Start with easy questions such as "How do I feel right now?"
-- Move next to "What am I avoiding?" and "Why do I not want to start?"
-- Keep the question set short
-- Combine multiple-choice and short text
-- Use non-judgmental wording
-- Make sure every question supports later action generation
+The point would not be social networking. The point would be to test whether users are more likely to follow through when one other person can lightly see or support the action.
 
-Suggested structure:
+Possible V2 additions:
 
-1. What best describes how I feel right now?
+- invite one peer
+- share a short action summary
+- optional check-in after the action
+- easy exit from peer mode
 
-Example options: anxious, tired, frustrated, guilty, stuck, low, calm
-2. What feels most blocked right now?
-Example options: homework, applications, replying to someone, starting a project, making a decision
-3. Why do I not want to begin?
-Example options: too tired, afraid of doing badly, do not know where to start, task feels too big, no motivation, worried about the outcome
-4. What amount of effort feels possible right now?
-Example options: 2 minutes, 5 minutes, 10 minutes, only prepare, only make a draft, only break it down
-5. What do I want this next action to help me do?
-Example options: calm down, restart, make progress, test interest, regain some control
+This only makes sense after the solo loop feels stable.
 
-### 13.3.2 Theory Support for Question Design
+### 16.3 Roadmap Direction B: Pattern Recognition
 
-- Affect labeling supports asking users to name what they feel before taking action
-- Motivational interviewing supports making ambivalence and resistance visible
-- Behavioral activation supports breaking stuckness through small action
-- Implementation intentions support making the action concrete and specific
-- Self-Determination Theory supports offering multiple options so users retain choice
+Once users have enough history, the product could become more useful by helping them notice patterns.
 
-Priority: P0 (V1)
+Possible later additions:
 
-### 13.4 Action Experiment Module
+- recurring blockers
+- common emotional states
+- which kinds of actions tend to work best
+- lightweight insight summaries
 
-- Users can create a small action based on reflection
-- The system can generate 3 to 5 action suggestions based on structured answers and text input
-- Each suggestion should explain what to do, how long it takes, and why it fits the user’s current state
-- Users can choose an AI suggestion or write their own
-- Each action includes a title, description, estimated duration, and optional context or location
-- The system should encourage clear action wording, such as "Tonight at 8 PM, open the document and write only the title"
-- All suggested actions should stay small, low-risk, and realistic within a short time frame
+The important thing here is sequencing. Insights are only valuable after there is enough real usage to support them.
 
-Priority: P0 (V1)
+### 16.4 Roadmap Direction C: Better Infrastructure
 
-### 13.5 Post-Action Review Module
+If Momentum moves beyond demo use, the product will eventually need:
 
-- Users record what happened, how they felt, and what surprised them
-- Users can rate engagement, emotional shift, and willingness to continue
-- Users can answer whether they feel more stable or more ready than before
+- real auth
+- persistent cloud storage
+- stronger privacy and security foundations
+- better analytics and instrumentation
 
-Priority: P0 (V1)
+These are important, but they are not what MVP1 is trying to prove.
 
-### 13.6 History Module
+## 17. Conclusion
 
-- Users can review past reflections, actions, and reviews by time
-- Users can clearly see the status of each cycle
+Momentum MVP1 is a deliberately small product.
 
-Priority: P1 (V1)
+It is built around one belief: people often do not need more abstract reflection. They need a way to notice what is true right now, choose one manageable action, and learn from what happens next.
 
-### 13.7 Dashboard
-
-- Show the current active cycle
-- Show the next pending step
-- Expand into an insights entry point in V3
-
-Priority: P1 (V1)
-
-### 13.8 Peer Module
-
-- Users can invite one peer or accept an invitation
-- Users can share a short summary of one cycle
-- Users can complete lightweight check-ins
-- Users can leave peer mode at any time
-
-Priority: P1 (V2)
-
-### 13.9 Insights Module
-
-- Aggregate history using tags
-- Show common themes, emotions, blockers, and useful actions
-- Suggest next experiments based on simple rules
-
-Priority: P1 (V3)
-
-### 13.10 AI Suggestion Module
-
-- Read structured answers and short text input
-- Prioritize current emotion, main blocker, target task, acceptable action size, and desired next state
-- Generate suggestions at different levels, such as "regulate first," "prepare only," or "move the task forward one step"
-- Avoid suggestions that are too large, vague, or judgmental
-- Let users ignore, replace, or rewrite any AI-generated suggestion
-- Never present AI output as diagnosis or treatment
-
-Priority: P0 (V1)
-
-## 14. Non-Functional Requirements
-
-- Support desktop and mobile browsers
-- Keep the core flow lightweight and responsive
-- Prevent text loss through autosave or similar protection
-- Protect user privacy and personal data
-- Make sharing permissions clear in peer mode
-- Keep the system modular for future expansion
-
-## 15. Success Metrics
-
-### 15.1 North Star Metric
-
-- Weekly active users who complete a full reflection-action-review cycle
-
-### 15.2 Supporting Metrics
-
-- First reflection completion rate
-- AI action suggestion click and selection rate
-- Reflection-to-action conversion rate
-- Action-to-review completion rate
-- Average cycles completed per user
-- Share of users who report feeling more stable after action
-- 7-day retention
-- 30-day retention
-- Peer mode adoption rate
-- Completion lift in peer mode
-- New action start rate after visiting insights
-
-## 16. Risks and Mitigations
-
-### 16.1 The Product Feels Like Just Another Journal
-
-Mitigation:
-
-- Repeatedly emphasize the small action experiment in onboarding and product copy
-- Tie reflection directly to action generation
-
-### 16.2 Users Still Do Not Act
-
-Mitigation:
-
-- Keep action size small
-- Provide clear examples
-- Frame actions as experiments, not commitments
-
-### 16.3 Peer Features Add Social Pressure
-
-Mitigation:
-
-- Keep the model one-to-one, low frequency, and easy to exit
-- Avoid public competition or rankings
-
-### 16.4 Insights Are Weak Because There Is Not Enough Data
-
-Mitigation:
-
-- Delay complex insights until V3
-- First focus on helping users complete more cycles
-- Use explainable rules, not black-box summaries
-
-### 16.5 Mental Health Boundaries Become Unclear
-
-Mitigation:
-
-- State clearly that the product supports self-awareness and everyday action, not therapy or medical care
-- If user input includes self-harm, extreme hopelessness, or crisis signals, do not continue with normal action suggestions; show support resources instead
-- Avoid framing normal emotional fluctuation as diagnosis
-
-## 17. Future Directions Beyond MVP
-
-- Smart reminders and notifications
-- AI-assisted summaries and personalization
-- Connections to campus resources or activities
-- Richer mood and state tracking
-- Small group experiments or themed challenges
-
-## 18. Development Priority
-
-### Stage 1
-
-- Build the V1 solo core loop
-- Validate that the main path is clear and usable
-
-### Stage 2
-
-- Add peer support
-- Test whether outside support improves follow-through
-
-### Stage 3
-
-- Add pattern-based insights
-- Test long-term value and retention
-
-## 19. Conclusion
-
-Momentum is built around a simple idea: many students do not need more abstract reflection. They need help recognizing their current state, understanding what is blocking them, and taking one small action that feels possible now.
-
-The three-stage MVP plan supports that logic:
-
-- V1 validates the personal loop
-- V2 tests whether peer support improves follow-through
-- V3 tests whether patterns and insights create long-term value
-
+If MVP1 proves that this loop is useful, then the roadmap can expand carefully into accountability, insights, and stronger infrastructure. But the value of the product should still come from the same place: helping someone go from stuckness to motion without adding more pressure.
