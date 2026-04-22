@@ -11,11 +11,12 @@ export async function POST(request: Request) {
   }
 
   const body = (await request.json().catch(() => null)) as
-    | { displayName?: string; focusArea?: string }
+    | { displayName?: string; focusArea?: string; focusNote?: string }
     | null;
 
   const displayName = body?.displayName?.trim();
   const focusArea = body?.focusArea?.trim();
+  const focusNote = typeof body?.focusNote === "string" ? body.focusNote.trim() : "";
 
   if (!displayName || !focusArea) {
     return NextResponse.json(
@@ -24,7 +25,14 @@ export async function POST(request: Request) {
     );
   }
 
-  await saveProfile(session, { displayName, focusArea });
+  if (focusNote.length > 280) {
+    return NextResponse.json(
+      { error: "Focus note must be 280 characters or fewer." },
+      { status: 400 },
+    );
+  }
+
+  await saveProfile(session, { displayName, focusArea, focusNote });
   revalidatePath("/dashboard");
   revalidatePath("/history");
   revalidatePath("/cycle/new");

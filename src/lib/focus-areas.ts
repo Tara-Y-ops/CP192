@@ -5,3 +5,6 @@ export const FOCUS_AREAS = [
   "Handling pressure, guilt, or low energy",
   "Rebuilding a habit without going extreme",
 ] as const;
+
+export const FOCUS_NOTE_PLACEHOLDER =
+  "Momentum is not asking for a big plan. Use this space to name what feels blocked, capture one low-risk next step, or rewrite this in your own words.";

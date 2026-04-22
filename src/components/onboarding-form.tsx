@@ -2,20 +2,23 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FOCUS_AREAS } from "@/lib/focus-areas";
+import { FOCUS_AREAS, FOCUS_NOTE_PLACEHOLDER } from "@/lib/focus-areas";
 
 interface OnboardingFormProps {
   displayName: string;
   initialFocusArea?: string;
+  initialFocusNote?: string;
 }
 
 export function OnboardingForm({
   displayName,
   initialFocusArea = FOCUS_AREAS[0],
+  initialFocusNote = "",
 }: OnboardingFormProps) {
   const router = useRouter();
   const [name, setName] = useState(displayName);
   const [focusArea, setFocusArea] = useState(initialFocusArea);
+  const [focusNote, setFocusNote] = useState(initialFocusNote);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,7 +30,7 @@ export function OnboardingForm({
     const response = await fetch("/api/profile", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ displayName: name, focusArea }),
+      body: JSON.stringify({ displayName: name, focusArea, focusNote }),
     });
 
     const payload = (await response.json().catch(() => null)) as
@@ -76,10 +79,15 @@ export function OnboardingForm({
           ))}
         </select>
       </div>
-      <div className="rounded-[24px] border border-[var(--line)] bg-white/60 p-4 text-sm leading-7 text-[var(--muted)]">
-        Momentum is not asking for a big plan. It helps you name what feels blocked, pick
-        one low-risk action, and review what changed after doing it.
-      </div>
+      <textarea
+        className="field min-h-[124px] rounded-[24px] px-5 py-4 text-sm leading-8"
+        value={focusNote}
+        onChange={(event) => setFocusNote(event.target.value)}
+        placeholder={FOCUS_NOTE_PLACEHOLDER}
+        maxLength={280}
+        rows={4}
+        aria-label="Add a short focus note"
+      />
       <button className="btn-primary disabled:cursor-not-allowed disabled:opacity-70" disabled={isLoading}>
         {isLoading ? "Saving..." : "Enter dashboard"}
       </button>

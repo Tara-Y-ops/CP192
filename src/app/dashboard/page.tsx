@@ -99,6 +99,7 @@ export default async function DashboardPage() {
                 <FocusAreaEditor
                   displayName={summary.profile.displayName}
                   focusArea={summary.profile.focusArea}
+                  focusNote={summary.profile.focusNote}
                   compact
                 />
               </div>

@@ -35,7 +35,11 @@ export default async function OnboardingPage() {
           </div>
         </article>
         <article className="glass-card rounded-[30px] p-6 md:p-8">
-          <OnboardingForm displayName={session.displayName} />
+          <OnboardingForm
+            displayName={profile?.displayName ?? session.displayName}
+            initialFocusArea={profile?.focusArea}
+            initialFocusNote={profile?.focusNote ?? ""}
+          />
         </article>
       </section>
     </AppShell>

@@ -2,22 +2,25 @@
 
 import { startTransition, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FOCUS_AREAS } from "@/lib/focus-areas";
+import { FOCUS_AREAS, FOCUS_NOTE_PLACEHOLDER } from "@/lib/focus-areas";
 
 interface FocusAreaEditorProps {
   displayName: string;
   focusArea: string;
+  focusNote?: string;
   compact?: boolean;
 }
 
 export function FocusAreaEditor({
   displayName,
   focusArea,
+  focusNote = "",
   compact = false,
 }: FocusAreaEditorProps) {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [selectedFocusArea, setSelectedFocusArea] = useState(focusArea);
+  const [noteDraft, setNoteDraft] = useState(focusNote);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -31,6 +34,7 @@ export function FocusAreaEditor({
       body: JSON.stringify({
         displayName,
         focusArea: selectedFocusArea,
+        focusNote: noteDraft,
       }),
     });
 
@@ -58,12 +62,16 @@ export function FocusAreaEditor({
           <p className={`${compact ? "text-xl" : "text-base"} font-semibold text-[var(--foreground)]`}>
             {focusArea}
           </p>
+          {focusNote ? (
+            <p className="mt-2 max-w-xl text-sm leading-7 text-[var(--muted)]">{focusNote}</p>
+          ) : null}
         </div>
         <button
           className="btn-secondary w-fit text-sm"
           type="button"
           onClick={() => {
             setSelectedFocusArea(focusArea);
+            setNoteDraft(focusNote);
             setIsEditing(true);
           }}
         >
@@ -86,6 +94,15 @@ export function FocusAreaEditor({
           </option>
         ))}
       </select>
+      <textarea
+        className="field min-h-[124px] rounded-[24px] px-5 py-4 text-sm leading-8"
+        value={noteDraft}
+        onChange={(event) => setNoteDraft(event.target.value)}
+        placeholder={FOCUS_NOTE_PLACEHOLDER}
+        maxLength={280}
+        rows={4}
+        aria-label="Focus note"
+      />
       <div className="flex flex-wrap gap-3">
         <button
           className="btn-primary text-sm disabled:cursor-not-allowed disabled:opacity-70"
@@ -100,6 +117,7 @@ export function FocusAreaEditor({
           type="button"
           onClick={() => {
             setSelectedFocusArea(focusArea);
+            setNoteDraft(focusNote);
             setIsEditing(false);
             setError("");
           }}

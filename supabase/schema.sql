@@ -3,8 +3,12 @@ create table if not exists profiles (
   email text not null,
   display_name text not null,
   focus_area text not null,
+  focus_note text not null default '',
   created_at timestamptz not null default now()
 );
+
+alter table profiles
+add column if not exists focus_note text not null default '';
 
 create table if not exists cycles (
   id uuid primary key,

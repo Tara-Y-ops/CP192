@@ -36,6 +36,7 @@ export interface Profile {
   email: string;
   displayName: string;
   focusArea: string;
+  focusNote?: string;
   createdAt: string;
 }
 
