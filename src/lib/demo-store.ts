@@ -1,5 +1,5 @@
-import { promises as fs } from "node:fs";
-import path from "node:path";
+import { deflateRawSync, inflateRawSync } from "node:zlib";
+import { cookies } from "next/headers";
 import {
   type ActionOption,
   type CreateCycleInput,
@@ -14,34 +14,138 @@ import {
   type SessionUser,
 } from "@/lib/types";
 
-const DATA_DIR = path.join(process.cwd(), ".data");
-const DATA_FILE = path.join(DATA_DIR, "momentum-demo.json");
+const DB_COOKIE_KEY = "momentum_demo_db";
+const DB_COOKIE_META_KEY = "momentum_demo_db_parts";
+const DB_COOKIE_CHUNK_SIZE = 3000;
+const MAX_DB_COOKIE_PARTS = 10;
+const MAX_STORED_CYCLES = 12;
+const MAX_STORED_PROFILES = 6;
 
-const EMPTY_DB: DemoDb = {
-  profiles: [],
-  cycles: [],
-  actionOptions: [],
-  reviews: [],
-};
+function createEmptyDb(): DemoDb {
+  return {
+    profiles: [],
+    cycles: [],
+    actionOptions: [],
+    reviews: [],
+  };
+}
 
-async function ensureDbFile() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-
-  try {
-    await fs.access(DATA_FILE);
-  } catch {
-    await fs.writeFile(DATA_FILE, JSON.stringify(EMPTY_DB, null, 2), "utf8");
+function normalizeDb(input: unknown): DemoDb {
+  if (!input || typeof input !== "object") {
+    return createEmptyDb();
   }
+
+  const parsed = input as Partial<DemoDb>;
+
+  return {
+    profiles: Array.isArray(parsed.profiles) ? parsed.profiles : [],
+    cycles: Array.isArray(parsed.cycles) ? parsed.cycles : [],
+    actionOptions: Array.isArray(parsed.actionOptions) ? parsed.actionOptions : [],
+    reviews: Array.isArray(parsed.reviews) ? parsed.reviews : [],
+  };
+}
+
+function splitIntoChunks(value: string, chunkSize: number) {
+  const chunks: string[] = [];
+
+  for (let index = 0; index < value.length; index += chunkSize) {
+    chunks.push(value.slice(index, index + chunkSize));
+  }
+
+  return chunks;
+}
+
+function trimDb(db: DemoDb): DemoDb {
+  const cycles = [...db.cycles]
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+    .slice(0, MAX_STORED_CYCLES);
+  const cycleIds = new Set(cycles.map((cycle) => cycle.id));
+  const profileIds = new Set(
+    [...db.profiles]
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      .slice(0, MAX_STORED_PROFILES)
+      .map((profile) => profile.userId),
+  );
+
+  return {
+    profiles: db.profiles.filter((profile) => profileIds.has(profile.userId)),
+    cycles,
+    actionOptions: db.actionOptions.filter((option) => cycleIds.has(option.cycleId)),
+    reviews: db.reviews.filter((review) => cycleIds.has(review.cycleId)),
+  };
+}
+
+function serializeDb(db: DemoDb) {
+  return deflateRawSync(JSON.stringify(trimDb(db))).toString("base64url");
+}
+
+function deserializeDb(value: string) {
+  const raw = inflateRawSync(Buffer.from(value, "base64url")).toString("utf8");
+  return normalizeDb(JSON.parse(raw));
+}
+
+function getCookieOptions() {
+  return {
+    httpOnly: true,
+    sameSite: "lax" as const,
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 14,
+  };
+}
+
+function expireCookie(cookieStore: Awaited<ReturnType<typeof cookies>>, name: string) {
+  cookieStore.set(name, "", {
+    ...getCookieOptions(),
+    expires: new Date(0),
+    maxAge: 0,
+  });
 }
 
 async function readDb() {
-  await ensureDbFile();
-  const raw = await fs.readFile(DATA_FILE, "utf8");
-  return JSON.parse(raw) as DemoDb;
+  const cookieStore = await cookies();
+  const chunkCount = Number(cookieStore.get(DB_COOKIE_META_KEY)?.value ?? "0");
+
+  if (!Number.isInteger(chunkCount) || chunkCount <= 0) {
+    return createEmptyDb();
+  }
+
+  const raw = Array.from({ length: chunkCount }, (_, index) =>
+    cookieStore.get(`${DB_COOKIE_KEY}_${index}`)?.value ?? "",
+  ).join("");
+
+  if (!raw) {
+    return createEmptyDb();
+  }
+
+  try {
+    return deserializeDb(raw);
+  } catch {
+    return createEmptyDb();
+  }
 }
 
 async function writeDb(db: DemoDb) {
-  await fs.writeFile(DATA_FILE, JSON.stringify(db, null, 2), "utf8");
+  const cookieStore = await cookies();
+  const serialized = serializeDb(db);
+  const chunks = splitIntoChunks(serialized, DB_COOKIE_CHUNK_SIZE);
+
+  if (chunks.length > MAX_DB_COOKIE_PARTS) {
+    throw new Error("Demo data is full for this browser session. Start a new session or clear older history.");
+  }
+
+  const previousChunkCount = Number(cookieStore.get(DB_COOKIE_META_KEY)?.value ?? "0");
+  const options = getCookieOptions();
+
+  cookieStore.set(DB_COOKIE_META_KEY, String(chunks.length), options);
+
+  chunks.forEach((chunk, index) => {
+    cookieStore.set(`${DB_COOKIE_KEY}_${index}`, chunk, options);
+  });
+
+  for (let index = chunks.length; index < previousChunkCount; index += 1) {
+    expireCookie(cookieStore, `${DB_COOKIE_KEY}_${index}`);
+  }
 }
 
 function bundleCycle(db: DemoDb, cycle: Cycle): CycleBundle {
@@ -92,18 +196,20 @@ export async function getProfile(userId: string) {
 
 export async function saveProfile(
   session: SessionUser,
-  input: { displayName: string; focusArea: string },
+  input: { displayName: string; focusArea: string; focusNote?: string },
 ) {
   const db = await readDb();
   const now = new Date().toISOString();
   const existingIndex = db.profiles.findIndex((profile) => profile.userId === session.userId);
+  const existingProfile = existingIndex >= 0 ? db.profiles[existingIndex] : null;
 
   const profile: Profile = {
     userId: session.userId,
     email: session.email,
     displayName: input.displayName || session.displayName,
     focusArea: input.focusArea,
-    createdAt: existingIndex >= 0 ? db.profiles[existingIndex].createdAt : now,
+    focusNote: input.focusNote ?? existingProfile?.focusNote ?? "",
+    createdAt: existingProfile?.createdAt ?? now,
   };
 
   if (existingIndex >= 0) {

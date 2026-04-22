@@ -4,10 +4,10 @@ Momentum is a local-demo MVP for a reflection -> action -> review loop. It is bu
 
 `auth -> onboarding -> reflection -> action selection -> complete -> review -> dashboard/history`
 
-The current implementation is optimized for local demo use:
+The current implementation is optimized for demo use:
 
 - lightweight cookie-based demo login
-- persistent local data in `.data/momentum-demo.json`
+- persistent per-browser demo data in HTTP-only cookies
 - fixed reflection prompts
 - AI action suggestions with a deterministic fallback when `OPENAI_API_KEY` is missing
 - status flow: `reflecting -> pending -> completed -> reviewed`
@@ -22,7 +22,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Optional AI Setup
 
-Copy `.env.example` to `.env.local` and set:
+Set:
 
 ```bash
 OPENAI_API_KEY=...
@@ -34,7 +34,8 @@ If no API key is present, the app still works and generates local fallback sugge
 ## Demo Notes
 
 - Demo sessions are local to the browser via an HTTP-only cookie.
-- Demo data is saved to `.data/momentum-demo.json`.
+- Demo data is also stored per browser in HTTP-only cookies, so it works on serverless hosting.
+- History is intentionally bounded because this is still a demo build.
 - `supabase/schema.sql` is included as the matching schema if you want to move the MVP to Supabase later.
 
 ## API Surface

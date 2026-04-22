@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { type ActionOption, type Cycle } from "@/lib/types";
 
@@ -27,7 +27,7 @@ export function ActionSelection({ cycle, initialOptions }: ActionSelectionProps)
   const router = useRouter();
   const [options, setOptions] = useState<ActionOption[]>(initialOptions);
   const [status, setStatus] = useState<"idle" | "loading" | "ready">(
-    initialOptions.length ? "ready" : "idle",
+    initialOptions.length ? "ready" : "loading",
   );
   const [error, setError] = useState("");
   const [customAction, setCustomAction] = useState<CustomActionState>(DEFAULT_CUSTOM_ACTION);
@@ -35,10 +35,7 @@ export function ActionSelection({ cycle, initialOptions }: ActionSelectionProps)
 
   const hasOptions = useMemo(() => options.length > 0, [options.length]);
 
-  const generateSuggestions = useCallback(async () => {
-    setStatus("loading");
-    setError("");
-
+  const fetchSuggestions = useCallback(async () => {
     const response = await fetch(`/api/cycles/${cycle.id}/generate-actions`, {
       method: "POST",
     });
@@ -59,6 +56,22 @@ export function ActionSelection({ cycle, initialOptions }: ActionSelectionProps)
     setOptions(payload.options);
     setStatus("ready");
   }, [cycle.id]);
+
+  useEffect(() => {
+    if (initialOptions.length === 0) {
+      const timer = window.setTimeout(() => {
+        void fetchSuggestions();
+      }, 0);
+
+      return () => window.clearTimeout(timer);
+    }
+  }, [fetchSuggestions, initialOptions.length]);
+
+  function generateSuggestions() {
+    setStatus("loading");
+    setError("");
+    void fetchSuggestions();
+  }
 
   async function selectExisting(actionOptionId: string) {
     setIsSaving(true);
@@ -124,7 +137,7 @@ export function ActionSelection({ cycle, initialOptions }: ActionSelectionProps)
               Desired shift: <strong>{cycle.desiredOutcome}</strong>.
             </p>
           </div>
-          <button className="btn-secondary" onClick={() => void generateSuggestions()} type="button">
+          <button className="btn-secondary" onClick={generateSuggestions} type="button">
             {status === "loading" ? "Regenerating..." : "Regenerate suggestions"}
           </button>
         </div>
